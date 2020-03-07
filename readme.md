@@ -1,5 +1,19 @@
 # How to use
 
+## Generate KeyId and Key
+
+Run `main.py` and use the `key_id_hex` and `key_hex` in the shaka packager command.
+
+```json
+{
+ "key_id_guid": "92273ca2-f3b9-4410-928e-8e394f51f007",
+ "key_id_hex": "92273ca2f3b94410928e8e394f51f007",
+ "key_id_b64": "kic8ovO5RBCSjo45T1HwBw==",
+ "key_hex": "859ab314e8e843b97b42bbde16004c60",
+ "key_b64": "hZqzFOjoQ7l7QrveFgBMYA=="
+}
+```
+
 ## Shaka Packager
 
 Run shaka packager with docker and mount your source folder.
