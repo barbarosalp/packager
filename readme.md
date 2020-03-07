@@ -4,7 +4,7 @@
 
 Run shaka packager with docker and mount your source folder.
 ```bash
- docker run -v ./videos:/media -it --rm google/shaka-packager
+ docker run -v ${PWD}/videos:/media -it --rm google/shaka-packager
 ```
 
 Package content
