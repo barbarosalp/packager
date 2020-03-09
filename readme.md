@@ -2,7 +2,7 @@
 
 ## Generate KeyId and Key
 
-Run `main.py` and use the `key_id_hex` and `key_hex` in the shaka packager command.
+Run `main.py` and use the `key_id_hex`, `key_hex` and `iv_hex` with the example shaka packager commands below.
 
 ```json
 {
@@ -10,7 +10,9 @@ Run `main.py` and use the `key_id_hex` and `key_hex` in the shaka packager comma
  "key_id_hex": "92273ca2f3b94410928e8e394f51f007",
  "key_id_b64": "kic8ovO5RBCSjo45T1HwBw==",
  "key_hex": "859ab314e8e843b97b42bbde16004c60",
- "key_b64": "hZqzFOjoQ7l7QrveFgBMYA=="
+ "key_b64": "hZqzFOjoQ7l7QrveFgBMYA==",
+ "iv_hex": "611b9b1d1466eb96e8be48d47d65a3fd",
+ "iv_b64": "YRubHRRm65bovkjUfWWj/Q==" 
 }
 ```
 
@@ -21,15 +23,29 @@ Run shaka packager with docker and mount your source folder.
  docker run -v ${PWD}/videos:/media -it --rm google/shaka-packager
 ```
 
-Package content
+Package content for Widevine and Playready
 ```bash
 packager \
-  skip_encryption=1,in=/media/caminandes/audio/audio-caminandes_audio_aac_128k.mp4,stream=audio,output=/media/output/audio.mp4 \
-  in=/media/caminandes/video/HD-caminandes_h264_high_1080p_6000.mp4,stream=video,output=/media/output/video.mp4,drm_label=HD \
+  skip_encryption=1,in=/media/caminande/audio/audio-caminandes_audio_aac_128k.mp4,stream=audio,output=/media/output/dash/audio.mp4 \
+  in=/media/caminande/video/HD-caminandes_h264_high_1080p_6000.mp4,stream=video,output=/media/output/dash/video.mp4,drm_label=HD \
   --enable_raw_key_encryption \
   --keys label=HD:key_id=4a6078e2a0c64b52a5e7a310981c835f:key=1a48eb3e55f3b965052d51ea00ac6ace \
   --protection_systems Widevine,PlayReady \
-  --mpd_output /media/output/content.mpd
+  --mpd_output /media/output/dash/content.mpd
+```
+
+Package content for Fairplay
+```bash
+packager \
+  skip_encryption=1,in=/media/caminande/audio/audio-caminandes_audio_aac_128k.mp4,stream=audio,output=/media/output/hls/audio.mp4 \
+  in=/media/caminande/video/HD-caminandes_h264_high_1080p_6000.mp4,stream=video,output=/media/output/hls/video.mp4,drm_label=HD \
+  --protection_scheme cbcs \
+  --enable_raw_key_encryption \
+  --keys label=HD:key_id=92273ca2f3b94410928e8e394f51f007:key=859ab314e8e843b97b42bbde16004c60 \
+  --protection_systems FairPlay \
+  --iv 611b9b1d1466eb96e8be48d47d65a3fd \
+  --hls_master_playlist_output /media/output/hls/h264_master.m3u8 \
+  --hls_key_uri skd://testAssetID
 ```
 
 ## Host Files
