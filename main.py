@@ -20,6 +20,7 @@ if __name__ == "__main__":
 
     key_id = generate_uuid()
     key = generate_random_bytes(16)
+    iv = generate_random_bytes(16)
 
     data = {}
     data['key_id_guid'] = str(key_id)
@@ -27,6 +28,8 @@ if __name__ == "__main__":
     data['key_id_b64'] = get_base64(key_id.bytes)
     data['key_hex'] = key.hex()
     data['key_b64'] = get_base64(key)
+    data['iv_hex'] = iv.hex()
+    data['iv_b64'] = get_base64(iv)
 
     with open('key.txt', 'w') as outfile:
         json.dump(data, outfile, indent=1)
